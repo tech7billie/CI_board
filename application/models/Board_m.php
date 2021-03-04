@@ -16,8 +16,8 @@ class Board_m extends CI_Model
         parent::__construct();
     }
  
+    
     /*
-
     // 전체 게시물 목록 반환(게시물 번호 기준 내림차순) 
     function get_list($table = 'ci_board') 
     {
@@ -37,7 +37,8 @@ class Board_m extends CI_Model
     }
     */
  
-    function get_list($table = 'ci_board', $type='', $offset='', $limit='')
+    
+    function get_list($table ='ci_board', $type='', $offset='', $limit='')
     {
         $limit_query='';
 
@@ -48,7 +49,7 @@ class Board_m extends CI_Model
         }
 
         // 쿼리문 구성 
-        $sql = "SELECT * FROM " .$table. " ORDER BY board_id DESC " . $limit_query;
+        $sql = "SELECT * FROM ".$table." ORDER BY board_id DESC " . $limit_query;
         
         // 쿼리문 실행 
         $query = $this->db->query($sql);
@@ -69,6 +70,7 @@ class Board_m extends CI_Model
         return $result;
 
     }
+    
 
 }
 

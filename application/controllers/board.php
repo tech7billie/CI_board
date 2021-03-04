@@ -77,7 +77,7 @@ class Board extends CI_Controller
         }
         else
         {
-            $start = ($page -1 ) * $config['per_page']; // 왜지? 오ㅔ지감자...  1-1=0...
+            $start = ($page -1) * $config['per_page']; // 왜지? 오ㅔ지감자...  1-1=0...
         }
 
         $limit = $config['per_page'];
