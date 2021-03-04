@@ -3,7 +3,7 @@
         <h1></h1>
     </header>
     <h1></h1>
-    <table cellpadding="0" cellspacing="0">
+    <table cellpadding="0" cellspacing="0" class="table">
         <thead>
             <tr>
                 <th scope="col">번호</th>
