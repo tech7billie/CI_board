@@ -2,6 +2,12 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
  
+
+/*
+    1.  _remap($method) : 헤더, 푸터 로드 
+    2.  lists()         : 게시물 목록 불러오기 
+
+*/    
 class Board extends CI_Controller 
 {
  
@@ -20,7 +26,7 @@ class Board extends CI_Controller
     }
  
     
-    // 사이트 헤더, 푸터가 자동으로 추가된다.
+    // 헤더, 푸터 로드
     public function _remap($method) 
     {
         // 헤더 로드
@@ -37,11 +43,56 @@ class Board extends CI_Controller
     }
  
 
-    // 목록 불러오기
+    // 게시물 목록 불러오기
     public function lists() 
     {
-        $data['list'] = $this -> board_m -> get_list();
-        $this -> load -> view('board/list_v', $data);
+        // 페이징 라이브러리 추가 
+        $this->load->library('pagination');
+
+        // 페이지네이션에 포함될 컨트롤러/함수의 전체 url 이다. 컨트롤러는 board 이고 함수는 lists() 이다. 
+        $config['base_url'] = '/bbs/board/lists/ci_board/page';
+    
+        // 페이지네이션 할 전체 레코드의 수. 
+        $config['total_rows'] = $this->board_m->get_list($this->uri->segment(3),'count'); // segment(세그먼트 번호)
+        
+        // 한 페이지 당 게시물 수 
+        $config['per_page'] = 5;
+
+        // 페이지 번호가 위치한 세그먼트 
+        $config['uri_segment'] = 5;
+
+        // 설정값에 따라 페이지네이션 초기화
+        $this->pagination->initialize($config);
+
+        // 페이지 링크를 생성하여 view 에서 사용할 변수에 할당
+        $data['pagination'] = $this->pagination->create_links(); // create_links() : 페이지 링크 생성 
+
+        // 게시물 목록을 불러오기 위한 offset, limit 값 가져오기 
+        $page = $this->uri->segment(5, 1);  // segment(세그먼트 번호, defualt 값)
+
+        // 각 페이지의 시작점?? 찾기 
+        if($page > 1)
+        {
+            $start = (($page/$config['per_page'])) * $config['per_page'];
+        }
+        else
+        {
+            $start = ($page -1 ) * $config['per_page']; // 왜지? 오ㅔ지감자...  1-1=0...
+        }
+
+        $limit = $config['per_page'];
+
+        // 기존 코드(전체 게시물 목록 게시물 번호 기준 내림차로 보여주기)
+        // $data['list'] = $this -> board_m -> get_list();
+        // $this -> load -> view('board/list_v', $data);
+
+        $data['list'] = $this->board_m->get_list($this->uri->segment(3), '', $start, $limit);
+        $this->load->view('board/list_v', $data);
+
+
+        
+
+
     }
  
 }
