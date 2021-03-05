@@ -46,11 +46,11 @@ class Board extends CI_Controller
     // 게시물 목록 불러오기
     public function lists() 
     {
-        // 페이징 라이브러리 추가 
+        // 페이징 라이브러리 로드 
         $this->load->library('pagination');
 
-        // 페이지네이션에 포함될 컨트롤러/함수의 전체 url 이다. 컨트롤러는 board 이고 함수는 lists() 이다. 
-        $config['base_url'] = '/bbs/board/lists/ci_board/page';
+        // 페이지네이션 주소 
+        $config['base_url'] = '/bbs/index.php/board/lists/ci_board/page';
     
         // 페이지네이션 할 전체 레코드의 수. 
         $config['total_rows'] = $this->board_m->get_list($this->uri->segment(3),'count'); // segment(세그먼트 번호)
@@ -67,7 +67,7 @@ class Board extends CI_Controller
         // 페이지 링크를 생성하여 view 에서 사용할 변수에 할당
         $data['pagination'] = $this->pagination->create_links(); // create_links() : 페이지 링크 생성 
 
-        // 게시물 목록을 불러오기 위한 offset, limit 값 가져오기 
+        // 게시물 목록을 불러오기 위한 offset(데이터가 시작하는 위치), limit(한 페이지에 보여줄 데이터 수) 값 가져오기 
         $page = $this->uri->segment(5, 1);  // segment(세그먼트 번호, defualt 값)
 
         // 각 페이지의 시작점?? 찾기 
@@ -77,7 +77,7 @@ class Board extends CI_Controller
         }
         else
         {
-            $start = ($page -1) * $config['per_page']; // 왜지? 오ㅔ지감자...  1-1=0...
+            $start = ($page -1) * $config['per_page']; 
         }
 
         $limit = $config['per_page'];
