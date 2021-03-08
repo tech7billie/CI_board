@@ -67,10 +67,10 @@ class Board extends CI_Controller
         // 페이지 링크를 생성하여 view 에서 사용할 변수에 할당
         $data['pagination'] = $this->pagination->create_links(); // create_links() : 페이지 링크 생성 
 
-        // 게시물 목록을 불러오기 위한 offset(데이터가 시작하는 위치), limit(한 페이지에 보여줄 데이터 수) 값 가져오기 
+        // 현재 페이지 
         $page = $this->uri->segment(5, 1);  // segment(세그먼트 번호, defualt 값)
 
-        // 각 페이지의 시작점?? 찾기 
+         // 게시물 목록을 불러오기 위한 offset(데이터가 시작하는 위치), limit(한 페이지에 보여줄 데이터 수) 값 가져오기 
         if($page > 1)
         {
             $start = (($page/$config['per_page'])) * $config['per_page'];
